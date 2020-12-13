@@ -1,3 +1,5 @@
+import CostTable from './CostTable';
+
 interface iDistance {
     p1?: number,
     p2?: number,
@@ -22,8 +24,37 @@ class Point {
         this.distances = distances;
     }
 
-    calc = () => {
-        
+    public calc = (costHistoryProp: number, end: number, remake?: string) => {
+        let bestTotalCost: number;
+        let history: number;
+        let pointTmp: number;
+        let costHistory: number = costHistoryProp;
+
+        if (remake) {
+            costHistory += -this.distances[remake];
+            delete this.distances[remake];
+        }
+
+        for (const [key, value] of Object.entries(this.distances)) {
+            if(!value) continue;
+
+            const destinationPoint = Number(key.split('p')[1]);
+
+            let cost = costHistory + value + CostTable[destinationPoint -1][end -1];
+
+            if (bestTotalCost === undefined) {
+                pointTmp = destinationPoint;
+                bestTotalCost = cost;
+                history = costHistory + value;
+            }
+            else if (bestTotalCost > cost) {
+                pointTmp = destinationPoint;
+                bestTotalCost = cost;
+                history = costHistory + value;
+            }
+        }
+
+        return { history: history, bestCost: bestTotalCost, point: pointTmp }
     }
 }
 

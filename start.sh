@@ -1,1 +1,1 @@
-tsc *.ts --outDir build/ && node build/main.js
+tsc *.ts --outDir build/ --lib dom,esnext,es2017 && node build/main.js
