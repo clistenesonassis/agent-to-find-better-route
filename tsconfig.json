@@ -1,0 +1,7 @@
+{
+    "compileOptions": {
+        "lib": [
+            "esnext",
+        ]
+    }
+}
